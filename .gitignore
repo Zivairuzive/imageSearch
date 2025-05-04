@@ -1,0 +1,10 @@
+# Python
+__pycache__/
+    *.py[cod]
+
+#Virtual Environment
+image_search/
+.env
+.env.local
+.env.*.local
+
