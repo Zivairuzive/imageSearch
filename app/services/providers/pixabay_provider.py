@@ -2,6 +2,7 @@ import os
 import httpx
 from .base import ImageProvider
 from typing import List, Dict
+from datetime import datetime
 
 DEFAULT_EMPTY = []
 PIXABAY_API_KEY = os.environ.get("PIXABEY_API_KEY", "")
@@ -12,6 +13,7 @@ if PIXABAY_API_KEY == "":
 
 
 class PixabayProvider(ImageProvider):
+    name = "pixabay"
     
     def __init__(self):
         results = None
@@ -30,12 +32,16 @@ class PixabayProvider(ImageProvider):
             
         response_data = response.json()
         self.results = [
-            {
-                "id":str(image['id']),
-                "title":query,
-                "description":image.get('tags', ''),
-                "tags": image.get('tags', '').split(","),
+            {   
+                "provider": self.name,
+                "provider_id": str(image['id']),
                 "url":image.get("largeImageURL"),
+                "title":query,
+                "thumbnail_url": image["previewURL"],
+                "width":image.get("imageWidth"),
+                "height": image.get("imageHeight"),
+                "description":image.get('tags', ''),
+                "fetched_at": datetime.timezone.utcnow(),
             }
             for image in response_data.get('hits', DEFAULT_EMPTY)
         ]

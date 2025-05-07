@@ -1,5 +1,5 @@
 import os
-import requests, httpx
+import httpx
 from typing import List, Dict
 from .base import ImageProvider
 
@@ -7,11 +7,12 @@ PEXEL_API_KEY = os.environ.get('PEXEL_API_KEY', "")
 EMPTY = []
 
 if PEXEL_API_KEY == "":
-    raise ValueError(f"expected an value not ${PEXEL_API_KEY}")
+    raise ValueError(f"expected an value not {PEXEL_API_KEY}")
 
 PEXEL_BASE_API_URL = "https://api.pexels/api/v1"
 
 class PexelProvider(ImageProvider):
+    name = 'pexel'
     
     def __init__(self):
         results = []
